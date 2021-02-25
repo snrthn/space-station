@@ -2,9 +2,12 @@
 let path = require('path');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let CopyWebpackPlugin = require('copy-webpack-plugin');
+let MiniCssExtractPlugin = require('mini-css-extract-plugin');
+let OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 let { CleanWebpackPlugin } = require('clean-webpack-plugin');
+let webpack = require('webpack');
 
-module.exports = function (env) {
+module.exports = function () {
     return {
         mode: 'production',
         entry: path.resolve(__dirname, '../src/index'),
@@ -33,7 +36,7 @@ module.exports = function (env) {
                 },
                 {
                     test: /\.css$/i,
-                    use: ['style-loader', 'css-loader']
+                    use: [{ loader: MiniCssExtractPlugin.loader }, 'css-loader', 'postcss-loader']
                 },
                 {
                     test: /\.(jpg|png|gif)$/i,
@@ -41,21 +44,32 @@ module.exports = function (env) {
                         loader: 'file-loader',
                         options: {
                             outputPath: 'static/images',
+                            publicPath: '../images',
                             name: '[contenthash:16].[ext]'
                         }
                     }
                 },
                 {
-                    test: /\.(ttf|eot|fon|woff|woff2|otf|pfm)/i,
+                    test: /\.(ttf|eot|fon|woff|woff2|otf|pfm|svg)/i,
                     use: {
                         loader: 'file-loader',
                         options: {
                             outputPath: 'static/fonts',
+                            publicPath: '../fonts',
                             name: '[contenthash:16].[ext]'
                         }
                     }
                 }
             ]
+        },
+        resolve: {
+            extensions: ['.js', '.json'],
+            alias: {
+                '@': path.resolve(__dirname, 'src')
+            }
+        },
+        performance: {
+            hints: false
         },
         plugins: [
             new CopyWebpackPlugin({
@@ -71,6 +85,16 @@ module.exports = function (env) {
                 filename: 'index.html',
                 inject: true
             }),
+            new MiniCssExtractPlugin({
+                filename: 'static/css/[contenthash:16].css'
+            }),
+            new webpack.optimize.AggressiveSplittingPlugin({
+                minSize: 50,
+                maxSize: 200,
+                chunkOverhead: 0,
+                entryChunkMultiplicator: 1
+            }),
+            new OptimizeCssAssetsWebpackPlugin(),
             new CleanWebpackPlugin()
         ]
     }

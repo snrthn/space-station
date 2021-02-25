@@ -4,9 +4,9 @@ let HtmlWebpackPlugin = require('html-webpack-plugin');
 let CopyWebpackPlugin = require('copy-webpack-plugin');
 let { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-module.exports = function (env) {
+module.exports = function () {
     return {
-        mode: 'development',
+        mode: 'production',
         entry: path.resolve(__dirname, '../src/index'),
         output: {
             path: path.resolve(__dirname, '../dist'),
@@ -46,7 +46,7 @@ module.exports = function (env) {
                     }
                 },
                 {
-                    test: /\.(ttf|eot|fon|woff|woff2|otf|pfm)/i,
+                    test: /\.(ttf|eot|fon|woff|woff2|otf|pfm|svg)/i,
                     use: {
                         loader: 'file-loader',
                         options: {

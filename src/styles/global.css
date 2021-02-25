@@ -13,3 +13,14 @@ body {
     font-size: 12px;
     color: #3388ff;
 }
+
+.satellite {
+    width: 150px;
+    height: 150px;
+    background-color: rgba(255, 255, 255, 0.3);
+    background-image: linear-gradient(#e66465, #9198e5);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-20deg);
+}

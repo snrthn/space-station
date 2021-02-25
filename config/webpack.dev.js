@@ -3,8 +3,9 @@ let path = require('path');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let CopyWebpackPlugin = require('copy-webpack-plugin');
 let { CleanWebpackPlugin } = require('clean-webpack-plugin');
+let autoprefixer = require('autoprefixer');
 
-module.exports = function (env) {
+module.exports = function () {
     return {
         mode: 'development',
         entry: path.resolve(__dirname, '../src/index'),
@@ -33,7 +34,14 @@ module.exports = function (env) {
                 },
                 {
                     test: /\.css$/i,
-                    use: ['style-loader', 'css-loader']
+                    use: ['style-loader', 'css-loader', {
+                        loader: 'postcss-loader'
+                        // options: {
+                        //     postcssOptions: {
+                        //         plugins: [autoprefixer]
+                        //     }
+                        // }
+                    }]
                 },
                 {
                     test: /\.(jpg|png|gif)$/i,
@@ -46,7 +54,7 @@ module.exports = function (env) {
                     }
                 },
                 {
-                    test: /\.(ttf|eot|fon|woff|woff2|otf|pfm)/i,
+                    test: /\.(ttf|eot|fon|woff|woff2|otf|pfm|svg)/i,
                     use: {
                         loader: 'file-loader',
                         options: {
