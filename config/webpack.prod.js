@@ -1,11 +1,11 @@
 
 let path = require('path');
+let webpack = require('webpack');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let CopyWebpackPlugin = require('copy-webpack-plugin');
 let MiniCssExtractPlugin = require('mini-css-extract-plugin');
 let OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 let { CleanWebpackPlugin } = require('clean-webpack-plugin');
-let webpack = require('webpack');
 
 module.exports = function () {
     return {
@@ -71,6 +71,28 @@ module.exports = function () {
         performance: {
             hints: false
         },
+        optimization: {
+            splitChunks: {
+                chunks: 'all',
+                minSize: 100,
+                minChunks: 1,
+                maxAsyncRequests: 5,
+                maxInitialRequests: 3,
+                automaticNameDelimiter: '~',
+                name: false,
+                cacheGroups: {
+                    vendors: {
+                        test: /[\\/]node_modules[\\/]/,
+                        priority: -10
+                    },
+                    default: {
+                        minChunks: 1,
+                        priority: -20,
+                        reuseExistingChunk: true
+                    }
+                }
+            }
+        },
         plugins: [
             new CopyWebpackPlugin({
                 patterns: [
@@ -88,13 +110,22 @@ module.exports = function () {
             new MiniCssExtractPlugin({
                 filename: 'static/css/[contenthash:16].css'
             }),
-            new webpack.optimize.AggressiveSplittingPlugin({
-                minSize: 50,
-                maxSize: 200,
-                chunkOverhead: 0,
-                entryChunkMultiplicator: 1
+            // 已被弃用 功能是分割代码 被 optimization.splitChunks 代替
+            // new webpack.optimize.AggressiveSplittingPlugin({
+            //     minSize: 100,
+            //     maxSize: 5000,
+            //     chunkOverhead: 0,
+            //     entryChunkMultiplicator: 1
+            // }),
+            // new OptimizeCssAssetsWebpackPlugin(),
+            new OptimizeCssAssetsWebpackPlugin({
+                assetNameRegExp: /\.optimize\.css$/g,
+                cssProcessor: require('cssnano'),
+                cssProcessorPluginOptions: {
+                    preset: ['default', { discardComments: { removeAll: true } }],
+                },
+                canPrint: true
             }),
-            new OptimizeCssAssetsWebpackPlugin(),
             new CleanWebpackPlugin()
         ]
     }

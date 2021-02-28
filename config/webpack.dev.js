@@ -1,8 +1,5 @@
 
 let path = require('path');
-let HtmlWebpackPlugin = require('html-webpack-plugin');
-let CopyWebpackPlugin = require('copy-webpack-plugin');
-let { CleanWebpackPlugin } = require('clean-webpack-plugin');
 let autoprefixer = require('autoprefixer');
 
 module.exports = function () {
@@ -34,14 +31,7 @@ module.exports = function () {
                 },
                 {
                     test: /\.css$/i,
-                    use: ['style-loader', 'css-loader', {
-                        loader: 'postcss-loader'
-                        // options: {
-                        //     postcssOptions: {
-                        //         plugins: [autoprefixer]
-                        //     }
-                        // }
-                    }]
+                    use: ['style-loader', 'css-loader', 'postcss-loader']
                 },
                 {
                     test: /\.(jpg|png|gif)$/i,
@@ -65,21 +55,14 @@ module.exports = function () {
                 }
             ]
         },
-        plugins: [
-            new CopyWebpackPlugin({
-                patterns: [
-                    {
-                        from: path.resolve(__dirname, '../static'),
-                        to: 'static'
-                    }
-                ]
-            }),
-            new HtmlWebpackPlugin({
-                template: path.resolve(__dirname, '../index.html'),
-                filename: 'index.html',
-                inject: true
-            }),
-            new CleanWebpackPlugin()
-        ]
+        resolve: {
+            extensions: ['.js', '.json'],
+            alias: {
+                '@': path.resolve(__dirname, 'src')
+            }
+        },
+        performance: {
+            hints: false
+        },
     }
 };

@@ -9,6 +9,10 @@ body {
     font-size: 14px;
 }
 
+#app > div {
+    text-align: right;
+}
+
 .box {
     font-size: 12px;
     color: #3388ff;
