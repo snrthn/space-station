@@ -1,11 +1,10 @@
-
 let path = require('path');
-let webpack = require('webpack');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let CopyWebpackPlugin = require('copy-webpack-plugin');
 let MiniCssExtractPlugin = require('mini-css-extract-plugin');
-let OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+let CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 let { CleanWebpackPlugin } = require('clean-webpack-plugin');
+let TerserJSPlugin = require('terser-webpack-plugin');
 
 module.exports = function () {
     return {
@@ -15,14 +14,7 @@ module.exports = function () {
             path: path.resolve(__dirname, '../dist'),
             filename: 'static/js/[name][contenthash:16].js'
         },
-        devServer: {
-            contentBase: path.resolve(__dirname, '../dist'),
-            host: 'localhost',
-            port: '8888',
-            inline: true,
-            open: true
-        },
-        devtool: 'source-map',
+        devtool: 'cheap-module-source-map',
         module: {
             rules: [
                 {
@@ -36,7 +28,7 @@ module.exports = function () {
                 },
                 {
                     test: /\.css$/i,
-                    use: [{ loader: MiniCssExtractPlugin.loader }, 'css-loader', 'postcss-loader']
+                    use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
                 },
                 {
                     test: /\.(jpg|png|gif)$/i,
@@ -72,6 +64,7 @@ module.exports = function () {
             hints: false
         },
         optimization: {
+            // 代码分割配置
             splitChunks: {
                 chunks: 'all',
                 minSize: 100,
@@ -91,9 +84,22 @@ module.exports = function () {
                         reuseExistingChunk: true
                     }
                 }
-            }
+            },
+            // 处理JS: 生产模式下过滤掉控制台内容
+            minimizer: [
+                new TerserJSPlugin({
+                    terserOptions: {
+                        compress: {
+                            drop_console: true
+                        }
+                    }
+                })
+            ]
         },
         plugins: [
+            // 清理 dist 目录
+            new CleanWebpackPlugin(),
+            // 复制 static 目录到 dist 目录
             new CopyWebpackPlugin({
                 patterns: [
                     {
@@ -102,31 +108,19 @@ module.exports = function () {
                     }
                 ]
             }),
+            // 使用 index.html 作为项目模板
             new HtmlWebpackPlugin({
                 template: path.resolve(__dirname, '../index.html'),
                 filename: 'index.html',
                 inject: true
             }),
+            // 将模块中的 css 文件分离并保存到 static/css 目录下
             new MiniCssExtractPlugin({
-                filename: 'static/css/[contenthash:16].css'
+                filename: 'static/css/[contenthash:16].css',
+                chunkFilename: 'static/css/[id].css'
             }),
-            // 已被弃用 功能是分割代码 被 optimization.splitChunks 代替
-            // new webpack.optimize.AggressiveSplittingPlugin({
-            //     minSize: 100,
-            //     maxSize: 5000,
-            //     chunkOverhead: 0,
-            //     entryChunkMultiplicator: 1
-            // }),
-            // new OptimizeCssAssetsWebpackPlugin(),
-            new OptimizeCssAssetsWebpackPlugin({
-                assetNameRegExp: /\.optimize\.css$/g,
-                cssProcessor: require('cssnano'),
-                cssProcessorPluginOptions: {
-                    preset: ['default', { discardComments: { removeAll: true } }],
-                },
-                canPrint: true
-            }),
-            new CleanWebpackPlugin()
+            // 压缩分离出的 css 文件
+            new CssMinimizerPlugin()
         ]
     }
 };

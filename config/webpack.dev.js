@@ -1,6 +1,8 @@
-
 let path = require('path');
-let autoprefixer = require('autoprefixer');
+let HtmlWebpackPlugin = require('html-webpack-plugin');
+let CopyWebpackPlugin = require('copy-webpack-plugin');
+let MiniCssExtractPlugin = require('mini-css-extract-plugin');
+let { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = function () {
     return {
@@ -31,7 +33,7 @@ module.exports = function () {
                 },
                 {
                     test: /\.css$/i,
-                    use: ['style-loader', 'css-loader', 'postcss-loader']
+                    use: [{ loader: MiniCssExtractPlugin.loader }, 'css-loader', 'postcss-loader']
                 },
                 {
                     test: /\.(jpg|png|gif)$/i,
@@ -39,6 +41,7 @@ module.exports = function () {
                         loader: 'file-loader',
                         options: {
                             outputPath: 'static/images',
+                            publicPath: '../images',
                             name: '[contenthash:16].[ext]'
                         }
                     }
@@ -49,6 +52,7 @@ module.exports = function () {
                         loader: 'file-loader',
                         options: {
                             outputPath: 'static/fonts',
+                            publicPath: '../fonts',
                             name: '[contenthash:16].[ext]'
                         }
                     }
@@ -64,5 +68,52 @@ module.exports = function () {
         performance: {
             hints: false
         },
+        optimization: {
+            // 代码分割配置
+            splitChunks: {
+                chunks: 'all',
+                minSize: 100,
+                minChunks: 1,
+                maxAsyncRequests: 5,
+                maxInitialRequests: 3,
+                automaticNameDelimiter: '~',
+                name: false,
+                cacheGroups: {
+                    vendors: {
+                        test: /[\\/]node_modules[\\/]/,
+                        priority: -10
+                    },
+                    default: {
+                        minChunks: 1,
+                        priority: -20,
+                        reuseExistingChunk: true
+                    }
+                }
+            }
+        },
+        plugins: [
+            // 清理 dist 目录
+            new CleanWebpackPlugin(),
+            // 复制 static 目录到 dist 目录
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: path.resolve(__dirname, '../static'),
+                        to: 'static'
+                    }
+                ]
+            }),
+            // 使用 index.html 作为项目模板
+            new HtmlWebpackPlugin({
+                template: path.resolve(__dirname, '../index.html'),
+                filename: 'index.html',
+                inject: true
+            }),
+            // 将模块中的 css 文件分离并保存到 static/css 目录下
+            new MiniCssExtractPlugin({
+                filename: 'static/css/[contenthash:16].css',
+                chunkFilename: 'static/css/[id].css'
+            })
+        ]
     }
 };
