@@ -1,3 +1,7 @@
+/**
+ * @files 入口文件
+ * @author yanghuning
+ */
 
 import './styles/reset.css';
 import './styles/global.css';
