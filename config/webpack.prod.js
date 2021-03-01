@@ -14,7 +14,7 @@ module.exports = function () {
             path: path.resolve(__dirname, '../dist'),
             filename: 'static/js/[name][contenthash:16].js'
         },
-        devtool: 'cheap-module-source-map',
+        devtool: 'source-map',
         module: {
             rules: [
                 {
