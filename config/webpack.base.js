@@ -1,6 +1,10 @@
+'use strict'
+
 let path = require('path');
+let config = require('./')[process.env.TAG];
 let CopyWebpackPlugin = require('copy-webpack-plugin');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
+let { CleanWebpackPlugin } = require('clean-webpack-plugin');
 let MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -25,8 +29,8 @@ module.exports = {
                 use: {
                     loader: 'file-loader',
                     options: {
-                        outputPath: 'static/images',
-                        publicPath: '../images',
+                        outputPath: config.assetsSubDirectory + '/images',
+                        publicPath: config.assetsPublicPath + 'images',
                         name: '[contenthash:16].[ext]'
                     }
                 }
@@ -36,8 +40,8 @@ module.exports = {
                 use: {
                     loader: 'file-loader',
                     options: {
-                        outputPath: 'static/fonts',
-                        publicPath: '../fonts',
+                        outputPath: config.assetsSubDirectory + '/fonts',
+                        publicPath: config.assetsPublicPath + '/fonts',
                         name: '[contenthash:16].[ext]'
                     }
                 }
@@ -68,19 +72,21 @@ module.exports = {
         }
     },
     plugins: [
-        // 复制 static 目录到 dist 目录
+        // 清理打包根目录
+        new CleanWebpackPlugin(),
+        // 复制资源目录到目标根目录
         new CopyWebpackPlugin({
             patterns: [
                 {
                     from: path.resolve(__dirname, '../static'),
-                    to: 'static'
+                    to: config.assetsSubDirectory
                 }
             ]
         }),
-        // 将模块中的 css 文件分离并保存到 static/css 目录下
+        // 将模块中的 css 文件分离并保存到 资源/css 目录下
         new MiniCssExtractPlugin({
-            filename: 'static/css/[contenthash:16].css',
-            chunkFilename: 'static/css/[id].css'
+            filename: config.assetsSubDirectory + '/css/[contenthash:16].css',
+            chunkFilename: config.assetsSubDirectory + '/css/[id].css'
         }),
         // 使用 index.html 作为项目模板
         new HtmlWebpackPlugin({

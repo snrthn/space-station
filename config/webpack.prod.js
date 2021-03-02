@@ -1,20 +1,20 @@
-let path = require('path');
+'use strict'
+process.env.TAG = 'prod';
+
 let { merge } = require('webpack-merge');
 let webpackBaseConfig = require('./webpack.base');
 let CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-let { CleanWebpackPlugin } = require('clean-webpack-plugin');
 let TerserJSPlugin = require('terser-webpack-plugin');
+let config = require('./')[process.env.TAG];
 
-module.exports = merge(webpackBaseConfig, {
+let prodConfig = merge(webpackBaseConfig, {
     // 模式
     mode: 'production',
     // 输出
     output: {
-        path: path.resolve(__dirname, '../dist'),
-        filename: 'static/js/[name][contenthash:16].js'
+        path: config.assetsRoot,
+        filename: config.assetsSubDirectory + '/js/[name][contenthash:16].js'
     },
-    // 资源定位
-    devtool: 'source-map',
     // 性能
     performance: {
         hints: false
@@ -33,9 +33,14 @@ module.exports = merge(webpackBaseConfig, {
         ]
     },
     plugins: [
-        // 清理 dist 目录
-        new CleanWebpackPlugin(),
         // 压缩分离出的 css 文件
         new CssMinimizerPlugin()
     ]
 });
+
+if (config.productionSourceMap) {
+    // 资源定位
+    prodConfig.devtool = config.devtool;
+}
+
+module.exports = prodConfig;
