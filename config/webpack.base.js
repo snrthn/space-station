@@ -91,6 +91,7 @@ module.exports = {
         // 使用 index.html 作为项目模板
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../index.html'),
+            subDir: config.assetsSubDirectory,
             filename: 'index.html',
             inject: true
         })
