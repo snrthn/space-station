@@ -30,7 +30,7 @@ module.exports = {
                     loader: 'file-loader',
                     options: {
                         outputPath: config.assetsSubDirectory + '/images',
-                        publicPath: config.assetsPublicPath + 'images',
+                        publicPath: config.assetsPublicPath + '/images',
                         name: '[contenthash:16].[ext]'
                     }
                 }

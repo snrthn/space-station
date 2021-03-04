@@ -4,7 +4,6 @@
  */
 
 // DO SOMETHING
-let path = require('path');
 
 module.exports = {
 
@@ -21,7 +20,7 @@ module.exports = {
         autoOpenBrowser: true,
 
         // 服务器根目录
-        assetsRoot: path.resolve(__dirname, '../dist'),
+        assetsRoot: 'dist',
 
         // 资源目录
         assetsSubDirectory: 'static',
@@ -44,7 +43,7 @@ module.exports = {
     stage: {
 
         // 打包根目录
-        assetsRoot: path.resolve(__dirname, '../dist'),
+        assetsRoot: 'dist',
 
         // 资源目录
         assetsSubDirectory: 'static',
@@ -64,7 +63,7 @@ module.exports = {
     prod: {
 
         // 打包根目录
-        assetsRoot: path.resolve(__dirname, '../dist'),
+        assetsRoot: 'dist',
 
         // 资源目录
         assetsSubDirectory: 'static',

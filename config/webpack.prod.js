@@ -1,6 +1,8 @@
 'use strict'
 process.env.TAG = 'prod';
 
+let path = require('path');
+let webpack = require('webpack');
 let { merge } = require('webpack-merge');
 let webpackBaseConfig = require('./webpack.base');
 let CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -12,7 +14,7 @@ let prodConfig = merge(webpackBaseConfig, {
     mode: 'production',
     // 输出
     output: {
-        path: config.assetsRoot,
+        path: path.resolve(__dirname, '../' + config.assetsRoot),
         filename: config.assetsSubDirectory + '/js/[name][contenthash:16].js'
     },
     // 性能
@@ -32,9 +34,14 @@ let prodConfig = merge(webpackBaseConfig, {
             })
         ]
     },
+    // 插件
     plugins: [
         // 压缩分离出的 css 文件
-        new CssMinimizerPlugin()
+        new CssMinimizerPlugin(),
+        // 注入全局静态变量
+        new webpack.DefinePlugin({
+            'process.env': require('./env/prod.env')
+        })
     ]
 });
 

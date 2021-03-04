@@ -2,6 +2,7 @@
 process.env.TAG = 'dev';
 
 let path = require('path');
+let webpack = require('webpack');
 let { merge } = require('webpack-merge');
 let webpackBaseConfig = require('./webpack.base');
 let config = require('./')[process.env.TAG];
@@ -11,7 +12,7 @@ module.exports = merge(webpackBaseConfig, {
     mode: 'development',
     // 服务
     devServer: {
-        contentBase: config.assetsRoot,
+        contentBase: path.resolve(__dirname, '../' + config.assetsRoot),
         host: config.host,
         port: config.port,
         open: config.autoOpenBrowser,
@@ -24,11 +25,18 @@ module.exports = merge(webpackBaseConfig, {
     resolve: {
         extensions: ['.js', '.json'],
         alias: {
-            '@': path.resolve(__dirname, 'src')
+            '@': path.resolve(__dirname, '../src')
         }
     },
     // 性能
     performance: {
         hints: false
-    }
+    },
+    // 插件
+    plugins: [
+        // 注入全局静态变量
+        new webpack.DefinePlugin({
+            'process.env': require('./env/dev.env')
+        })
+    ]
 });
