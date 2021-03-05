@@ -20,12 +20,7 @@ let stageConfig = merge(webpackBaseConfig, {
         hints: false
     },
     // 插件
-    plugins: [
-        // 注入全局静态变量
-        new webpack.DefinePlugin({
-            'process.env': require('./env/stage.env')
-        })
-    ]
+    plugins: []
 });
 
 if (config.productionSourceMap) {

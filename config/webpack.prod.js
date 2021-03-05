@@ -37,11 +37,7 @@ let prodConfig = merge(webpackBaseConfig, {
     // 插件
     plugins: [
         // 压缩分离出的 css 文件
-        new CssMinimizerPlugin(),
-        // 注入全局静态变量
-        new webpack.DefinePlugin({
-            'process.env': require('./env/prod.env')
-        })
+        new CssMinimizerPlugin()
     ]
 });
 

@@ -1,6 +1,8 @@
 'use strict'
 
 let path = require('path');
+let webpack = require('webpack');
+let { handleEnvConst } = require('./utils');
 let config = require('./')[process.env.TAG];
 let CopyWebpackPlugin = require('copy-webpack-plugin');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -72,6 +74,10 @@ module.exports = {
         }
     },
     plugins: [
+        // 注入静态环境变量
+        new webpack.DefinePlugin({
+            'process.env': handleEnvConst(require('./env/' + process.env.TAG  + '.env'))
+        }),
         // 清理打包根目录
         new CleanWebpackPlugin(),
         // 复制资源目录到目标根目录
@@ -93,7 +99,7 @@ module.exports = {
             template: path.resolve(__dirname, '../index.html'),
             subDir: config.assetsSubDirectory,
             filename: 'index.html',
-            inject: true
+            inject: 'body'
         })
     ]
 };

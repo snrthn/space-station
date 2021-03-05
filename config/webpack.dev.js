@@ -2,7 +2,6 @@
 process.env.TAG = 'dev';
 
 let path = require('path');
-let webpack = require('webpack');
 let { merge } = require('webpack-merge');
 let webpackBaseConfig = require('./webpack.base');
 let config = require('./')[process.env.TAG];
@@ -33,10 +32,5 @@ module.exports = merge(webpackBaseConfig, {
         hints: false
     },
     // 插件
-    plugins: [
-        // 注入全局静态变量
-        new webpack.DefinePlugin({
-            'process.env': require('./env/dev.env')
-        })
-    ]
+    plugins: []
 });
