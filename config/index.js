@@ -22,11 +22,11 @@ module.exports = {
         // 服务器根目录
         assetsRoot: 'dist',
 
-        // 资源目录
-        assetsSubDirectory: 'static',
-
         // 公共资源
         assetsPublicPath: '../',
+
+        // 资源目录
+        assetsSubDirectory: 'static',
 
         // 代理
         proxyTable: {},
@@ -45,11 +45,11 @@ module.exports = {
         // 打包根目录
         assetsRoot: 'dist',
 
-        // 资源目录
-        assetsSubDirectory: 'static',
-
         // 公共资源
         assetsPublicPath: '../',
+
+        // 资源目录
+        assetsSubDirectory: 'static',
 
         // 是否开启资源定位
         productionSourceMap: true,
@@ -65,11 +65,11 @@ module.exports = {
         // 打包根目录
         assetsRoot: 'dist',
 
-        // 资源目录
-        assetsSubDirectory: 'static',
-
         // 公共资源
         assetsPublicPath: '../',
+
+        // 资源目录
+        assetsSubDirectory: 'static',
 
         // 是否开启资源定位
         productionSourceMap: true,

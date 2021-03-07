@@ -31,7 +31,7 @@ module.exports = {
                 use: {
                     loader: 'url-loader',
                     options: {
-                        publicPath: config.assetsPublicPath + '/images',
+                        publicPath: config.assetsPublicPath + 'images',
                         outputPath: config.assetsSubDirectory + '/images',
                         name: '[contenthash:16].[ext]',
                         limit: 1000
@@ -43,7 +43,7 @@ module.exports = {
                 use: {
                     loader: 'url-loader',
                     options: {
-                        publicPath: config.assetsPublicPath + '/medias',
+                        publicPath: config.assetsPublicPath + 'medias',
                         outputPath: config.assetsSubDirectory + '/medias',
                         name: '[contenthash:16].[ext]',
                         limit: 1000
@@ -55,7 +55,7 @@ module.exports = {
                 use: {
                     loader: 'url-loader',
                     options: {
-                        publicPath: config.assetsPublicPath + '/fonts',
+                        publicPath: config.assetsPublicPath + 'fonts',
                         outputPath: config.assetsSubDirectory + '/fonts',
                         name: '[contenthash:16].[ext]',
                         limit: 1000
