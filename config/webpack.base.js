@@ -29,22 +29,36 @@ module.exports = {
             {
                 test: /\.(jpg|png|gif)$/i,
                 use: {
-                    loader: 'file-loader',
+                    loader: 'url-loader',
                     options: {
-                        outputPath: config.assetsSubDirectory + '/images',
                         publicPath: config.assetsPublicPath + '/images',
-                        name: '[contenthash:16].[ext]'
+                        outputPath: config.assetsSubDirectory + '/images',
+                        name: '[contenthash:16].[ext]',
+                        limit: 1000
+                    }
+                }
+            },
+            {
+                test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)$/i,
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        publicPath: config.assetsPublicPath + '/medias',
+                        outputPath: config.assetsSubDirectory + '/medias',
+                        name: '[contenthash:16].[ext]',
+                        limit: 1000
                     }
                 }
             },
             {
                 test: /\.(ttf|eot|fon|woff|woff2|otf|pfm|svg)/i,
                 use: {
-                    loader: 'file-loader',
+                    loader: 'url-loader',
                     options: {
-                        outputPath: config.assetsSubDirectory + '/fonts',
                         publicPath: config.assetsPublicPath + '/fonts',
-                        name: '[contenthash:16].[ext]'
+                        outputPath: config.assetsSubDirectory + '/fonts',
+                        name: '[contenthash:16].[ext]',
+                        limit: 1000
                     }
                 }
             }

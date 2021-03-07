@@ -26,3 +26,9 @@ function fetchData () {
         console.log(res);
     }
 }
+
+let boat = document.getElementsByClassName('space-boat')[0];
+
+boat.src = require('@/assets/images/start.jpg')['default'];
+
+console.log(boat);

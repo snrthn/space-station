@@ -31,3 +31,11 @@ body {
     top: 50%;
     transform: translate(-50%, -50%) rotate(-10deg);
 }
+
+.space-boat {
+    width: 200px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+}
