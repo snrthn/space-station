@@ -2,7 +2,7 @@
 
 let path = require('path');
 let webpack = require('webpack');
-let { handleEnvConst } = require('./utils');
+let { handleEnvConst } = require('./utils/handleTools');
 let config = require('./')[process.env.TAG];
 let CopyWebpackPlugin = require('copy-webpack-plugin');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -15,23 +15,31 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/i,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['babel-preset-env']
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['babel-preset-env']
+                        }
                     }
-                }
+                ]
             },
             {
                 test: /\.css$/i,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
+                use: [MiniCssExtractPlugin.loader, {
+                    loader: path.resolve(__dirname, 'utils/handleUrl'),
+                    options: {
+                        publicPath: config.assetsPublicPath,
+                        dirPath: '../../'
+                    }
+                }, 'css-loader', 'postcss-loader']
             },
             {
                 test: /\.(jpg|png|gif)$/i,
                 use: {
                     loader: 'url-loader',
                     options: {
-                        publicPath: config.assetsPublicPath + 'images',
+                        publicPath: config.assetsPublicPath + config.assetsSubDirectory + '/images',
                         outputPath: config.assetsSubDirectory + '/images',
                         name: '[contenthash:16].[ext]',
                         limit: 1000
@@ -43,7 +51,7 @@ module.exports = {
                 use: {
                     loader: 'url-loader',
                     options: {
-                        publicPath: config.assetsPublicPath + 'medias',
+                        publicPath: config.assetsPublicPath +  config.assetsSubDirectory + '/medias',
                         outputPath: config.assetsSubDirectory + '/medias',
                         name: '[contenthash:16].[ext]',
                         limit: 1000
@@ -55,7 +63,7 @@ module.exports = {
                 use: {
                     loader: 'url-loader',
                     options: {
-                        publicPath: config.assetsPublicPath + 'fonts',
+                        publicPath: config.assetsPublicPath +  config.assetsSubDirectory + '/fonts',
                         outputPath: config.assetsSubDirectory + '/fonts',
                         name: '[contenthash:16].[ext]',
                         limit: 1000
@@ -63,6 +71,13 @@ module.exports = {
                 }
             }
         ]
+    },    
+    // 解决方案
+    resolve: {
+        extensions: ['.js', '.json'],
+        alias: {
+            '@': path.resolve(__dirname, '../src')
+        }
     },
     optimization: {
         // 代码分割配置
@@ -111,7 +126,8 @@ module.exports = {
         // 使用 index.html 作为项目模板
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../index.html'),
-            subDir: config.assetsSubDirectory,
+            publicPath: config.assetsPublicPath,
+            assetsDir: config.assetsPublicPath + config.assetsSubDirectory,
             filename: 'index.html',
             inject: 'body'
         })

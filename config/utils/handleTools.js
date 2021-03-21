@@ -1,12 +1,13 @@
 /**
- * 工具箱
+ * @files 处理环境变量
+ * @author yanghuning 2021.03.21
  */
 
 /**
  * 处理 Webpack 环境变量
  * @param {Object} obj 
  */
-exports.handleEnvConst = function (obj) {
+ exports.handleEnvConst = function (obj) {
     if (!(obj instanceof Object)) return {};
     let result = {};
     for (let key in obj) {

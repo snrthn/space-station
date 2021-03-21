@@ -23,7 +23,7 @@ module.exports = {
         assetsRoot: 'dist',
 
         // 公共资源
-        assetsPublicPath: '../',
+        assetsPublicPath: '',
 
         // 资源目录
         assetsSubDirectory: 'static',
@@ -46,7 +46,7 @@ module.exports = {
         assetsRoot: 'dist',
 
         // 公共资源
-        assetsPublicPath: '../',
+        assetsPublicPath: '',
 
         // 资源目录
         assetsSubDirectory: 'static',
@@ -66,7 +66,7 @@ module.exports = {
         assetsRoot: 'dist',
 
         // 公共资源
-        assetsPublicPath: '../',
+        assetsPublicPath: '',
 
         // 资源目录
         assetsSubDirectory: 'static',
