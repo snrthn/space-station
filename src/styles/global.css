@@ -39,3 +39,10 @@ body {
     right: 0px;
     bottom: 0px;
 }
+
+#player {
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    transform: translateX(-50%);
+}

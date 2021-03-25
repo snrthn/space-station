@@ -29,6 +29,8 @@ function fetchData () {
 
 let boat = document.getElementsByClassName('space-boat')[0];
 
-let url = require('../assets/images/start.jpg')['default'];
+let url = require('../assets/images/start.jpg');
 
 boat.src = url;
+
+document.getElementById('player').src = require('../assets/media/20210325.mp3');

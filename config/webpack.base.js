@@ -42,6 +42,7 @@ module.exports = {
                         publicPath: config.assetsPublicPath + config.assetsSubDirectory + '/images',
                         outputPath: config.assetsSubDirectory + '/images',
                         name: '[contenthash:16].[ext]',
+                        esModule: false,
                         limit: 1000
                     }
                 }
@@ -54,6 +55,7 @@ module.exports = {
                         publicPath: config.assetsPublicPath +  config.assetsSubDirectory + '/medias',
                         outputPath: config.assetsSubDirectory + '/medias',
                         name: '[contenthash:16].[ext]',
+                        esModule: false,
                         limit: 1000
                     }
                 }
@@ -66,6 +68,7 @@ module.exports = {
                         publicPath: config.assetsPublicPath +  config.assetsSubDirectory + '/fonts',
                         outputPath: config.assetsSubDirectory + '/fonts',
                         name: '[contenthash:16].[ext]',
+                        esModule: false,
                         limit: 1000
                     }
                 }
