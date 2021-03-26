@@ -12,11 +12,6 @@ let config = require('./')[process.env.TAG];
 let prodConfig = merge(webpackBaseConfig, {
     // 模式
     mode: 'production',
-    // 输出
-    output: {
-        path: path.resolve(__dirname, '../' + config.assetsRoot),
-        filename: config.assetsSubDirectory + '/js/[name][contenthash:16].js'
-    },
     // 性能
     performance: {
         hints: false

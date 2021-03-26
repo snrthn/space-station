@@ -10,11 +10,6 @@ let config = require('./')[process.env.TAG];
 let stageConfig = merge(webpackBaseConfig, {
     // 模式
     mode: 'development',
-    // 输出
-    output: {
-        path: path.resolve(__dirname, '../' + config.assetsRoot),
-        filename: config.assetsSubDirectory + '/js/[name][contenthash:16].js'
-    },
     // 性能
     performance: {
         hints: false

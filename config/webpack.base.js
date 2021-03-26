@@ -11,6 +11,27 @@ let MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     entry: path.resolve(__dirname, '../src/index'),
+    // 输出
+    output: {
+        path: path.resolve(__dirname, '../' + config.assetsRoot),
+        filename: config.assetsSubDirectory + '/js/[name][contenthash:16].js',
+        environment: {
+            // 是否在编译后的代码中使用箭头函数
+            arrowFunction: false,
+            // 是否在编译后的代码中使用支持 BigInt
+            bigIntLiteral: false,
+            // 是否在编译后的代码中使用 let 或 const 关键字
+            const: false,
+            // 是否在编译后的代码中使用角构赋值操作
+            destructuring: false,
+            // 是否在编译后的代码中使用 async import() 异步导入模块
+            dynamicImport: false,
+            // 是否在编译后的代码中使用 for ... of ... 语法 
+            forOf: false,
+            // 是否在编译后的代码中使用 import ... from ... 语法 
+            module: false
+        }
+    },
     module: {
         rules: [
             {
