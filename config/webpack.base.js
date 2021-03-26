@@ -19,10 +19,19 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: {
-                            presets: ['babel-preset-env']
+                            presets: [
+                                'babel-preset-stage-0',
+                                ['env', {
+                                    modules: false,
+                                    targets: {
+                                        browsers: ["> 1%", "last 2 versions", "not ie <= 8"]
+                                    }
+                                }]
+                            ]
                         }
                     }
-                ]
+                ],
+                exclude: path.resolve(__dirname, 'node_modules')
             },
             {
                 test: /\.css$/i,
@@ -32,7 +41,8 @@ module.exports = {
                         publicPath: config.assetsPublicPath,
                         dirPath: '../../'
                     }
-                }, 'css-loader', 'postcss-loader']
+                }, 'css-loader', 'postcss-loader'],
+                exclude: path.resolve(__dirname, 'node_modules')
             },
             {
                 test: /\.(jpg|png|gif)$/i,
