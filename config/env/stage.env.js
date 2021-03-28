@@ -1,6 +1,6 @@
 'use strict'
 
 module.exports = {
-    NODE_ENV: 'development',
+    ENV_TAG: 'stage',
     BASE_API: 'https://www.snrthn.com/api/stage/'
 }

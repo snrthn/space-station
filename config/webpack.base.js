@@ -4,9 +4,7 @@ let path = require('path');
 let webpack = require('webpack');
 let { handleEnvConst } = require('./utils/handleTools');
 let config = require('./')[process.env.TAG];
-let CopyWebpackPlugin = require('copy-webpack-plugin');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
-let { CleanWebpackPlugin } = require('clean-webpack-plugin');
 let MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -105,13 +103,17 @@ module.exports = {
                 }
             }
         ]
-    },    
+    },
     // 解决方案
     resolve: {
         extensions: ['.js', '.json'],
         alias: {
             '@': path.resolve(__dirname, '../src')
         }
+    },
+    // 性能
+    performance: {
+        hints: false
     },
     optimization: {
         // 代码分割配置
@@ -140,17 +142,6 @@ module.exports = {
         // 注入静态环境变量
         new webpack.DefinePlugin({
             'process.env': handleEnvConst(require('./env/' + process.env.TAG  + '.env'))
-        }),
-        // 清理打包根目录
-        new CleanWebpackPlugin(),
-        // 复制资源目录到目标根目录
-        new CopyWebpackPlugin({
-            patterns: [
-                {
-                    from: path.resolve(__dirname, '../static'),
-                    to: config.assetsSubDirectory
-                }
-            ]
         }),
         // 将模块中的 css 文件分离并保存到 资源/css 目录下
         new MiniCssExtractPlugin({

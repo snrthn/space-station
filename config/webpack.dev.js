@@ -20,10 +20,6 @@ module.exports = merge(webpackBaseConfig, {
     },
     // 资源定位
     devtool: config.devtool,
-    // 性能
-    performance: {
-        hints: false
-    },
     // 插件
     plugins: []
 });

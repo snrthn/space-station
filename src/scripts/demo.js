@@ -1,6 +1,5 @@
 
-console.log('中华人民共和国');
-
+// 测试接口
 fetchData();
 
 function fetchData () {

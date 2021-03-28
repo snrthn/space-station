@@ -34,7 +34,7 @@ module.exports = {
         // 资源定位
         devtool: 'source-map',
 
-        // 开启ESlint
+        // 开启ESlint 暂未配置
         useEslint: false
 
     },
