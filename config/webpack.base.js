@@ -2,10 +2,11 @@
 
 let path = require('path');
 let webpack = require('webpack');
-let { handleEnvConst } = require('./utils/handleTools');
 let config = require('./')[process.env.TAG];
-let HtmlWebpackPlugin = require('html-webpack-plugin');
+let CopyWebpackPlugin = require('copy-webpack-plugin');
+let { handleEnvConst } = require('./utils/handleTools');
 let MiniCssExtractPlugin = require('mini-css-extract-plugin');
+let HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: path.resolve(__dirname, '../src/index'),
@@ -142,6 +143,15 @@ module.exports = {
         // 注入静态环境变量
         new webpack.DefinePlugin({
             'process.env': handleEnvConst(require('./env/' + process.env.TAG  + '.env'))
+        }),
+        // 复制资源目录到目标根目录
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, '../static'),
+                    to: config.assetsSubDirectory
+                }
+            ]
         }),
         // 将模块中的 css 文件分离并保存到 资源/css 目录下
         new MiniCssExtractPlugin({

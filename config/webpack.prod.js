@@ -5,7 +5,6 @@ let path = require('path');
 let webpack = require('webpack');
 let { merge } = require('webpack-merge');
 let webpackBaseConfig = require('./webpack.base');
-let CopyWebpackPlugin = require('copy-webpack-plugin');
 let { CleanWebpackPlugin } = require('clean-webpack-plugin');
 let CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 let TerserJSPlugin = require('terser-webpack-plugin');
@@ -32,15 +31,6 @@ let prodConfig = merge(webpackBaseConfig, {
     plugins: [
         // 清理打包根目录
         new CleanWebpackPlugin(),
-        // 复制资源目录到目标根目录
-        new CopyWebpackPlugin({
-            patterns: [
-                {
-                    from: path.resolve(__dirname, '../static'),
-                    to: config.assetsSubDirectory
-                }
-            ]
-        }),
         // 压缩分离出的 css 文件
         new CssMinimizerPlugin()
     ]

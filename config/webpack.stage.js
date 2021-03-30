@@ -4,7 +4,6 @@ process.env.TAG = 'stage';
 let path = require('path');
 let webpack = require('webpack');
 let { merge } = require('webpack-merge');
-let CopyWebpackPlugin = require('copy-webpack-plugin');
 let { CleanWebpackPlugin } = require('clean-webpack-plugin');
 let webpackBaseConfig = require('./webpack.base');
 let config = require('./')[process.env.TAG];
@@ -16,16 +15,7 @@ let stageConfig = merge(webpackBaseConfig, {
     // 插件
     plugins: [
         // 清理打包根目录
-        new CleanWebpackPlugin(),
-        // 复制资源目录到目标根目录
-        new CopyWebpackPlugin({
-            patterns: [
-                {
-                    from: path.resolve(__dirname, '../static'),
-                    to: config.assetsSubDirectory
-                }
-            ]
-        })
+        new CleanWebpackPlugin()
     ]
 });
 
