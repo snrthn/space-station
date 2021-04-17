@@ -50,7 +50,7 @@ module.exports = {
                             ]
                         }
                     }
-                ],
+                ].concat(config.useEslint ? { loader: 'eslint-loader' } : []),
                 exclude: path.resolve(__dirname, 'node_modules')
             },
             {
