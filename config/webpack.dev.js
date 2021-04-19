@@ -21,6 +21,7 @@ let devConfig = merge(webpackBaseConfig, {
         port: PORT || config.port,
         open: config.autoOpenBrowser,
         proxy: config.proxyTable,
+        clientLogLevel: 'none',
         inline: true,
         quiet: true
     },
