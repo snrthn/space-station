@@ -28,7 +28,7 @@ function fetchData () {
 
 let boat = document.getElementsByClassName('space-boat')[0];
 
-let url = require('../assets/images/start.jpg');
+let url = require('../assets/images/start.png');
 
 boat.src = url;
 

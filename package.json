@@ -1,7 +1,7 @@
 {
   "name": "space-station",
   "version": "1.0.0",
-  "description": "国际空间站",
+  "description": "中国空间站",
   "main": "./src/index.js",
   "scripts": {
     "dev": "webpack-dev-server --progress --config config/webpack.dev.js",
