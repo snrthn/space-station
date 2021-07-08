@@ -55,3 +55,11 @@ let obj3 = {
 }
 
 console.log(obj3);
+
+function * demo () {
+    yield 'MMB';
+}
+
+let d = demo();
+
+console.log(d);

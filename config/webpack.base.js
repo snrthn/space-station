@@ -37,18 +37,7 @@ module.exports = {
                 test: /\.js$/i,
                 use: [
                     {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: [
-                                'babel-preset-stage-0',
-                                ['env', {
-                                    modules: false,
-                                    targets: {
-                                        browsers: ["> 1%", "last 2 versions", "not ie <= 8"]
-                                    }
-                                }]
-                            ]
-                        }
+                        loader: 'babel-loader'
                     }
                 ].concat(config.useEslint ? { loader: 'eslint-loader' } : []),
                 exclude: path.resolve(__dirname, 'node_modules')
