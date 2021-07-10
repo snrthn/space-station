@@ -1,7 +1,9 @@
 'use strict'
 process.env.TAG = 'dev';
 
+let os = require('os');
 let path = require('path');
+let chalk = require('chalk');
 let portfinder = require('portfinder');
 let { merge } = require('webpack-merge');
 let webpackBaseConfig = require('./webpack.base');
@@ -47,10 +49,30 @@ module.exports = new Promise((resolve, reject) => {
             // 将新的端口号覆盖到配置中
             devConfig.devServer.port = port;
 
+            // 查找一下局域网IP地址
+            let curNetIp = '';
+            let netIpList = os.networkInterfaces().WLAN;
+            
+            if (netIpList) {                
+                netIpList.map(item => {
+                    if (item.family === 'IPv4') {
+                        curNetIp = item.address;
+                    }
+                });
+            }
+
             // 启动完成友好提示
             devConfig.plugins.push(new FriendlyErrorsPlugin({
                 compilationSuccessInfo: {
-                    messages: [`你的服务已经启动，请访问: http://${devConfig.devServer.host}:${port}`],
+                    messages: [`你的服务已经启动，请访问: 
+
+- 本地 ${ chalk.blueBright('http://' + devConfig.devServer.host + ':' + port) }
+- 网络 ${ curNetIp ? chalk.blueBright('http://' + curNetIp + ':' + port) : chalk.gray('unavailable') }
+
+注意：这是开发环境未优化的编译模式
+如果想编译测试版本，请运行 ${ chalk.cyanBright('npm run stage') }
+如果想编译生产版本，请运行 ${ chalk.cyanBright('npm run build') }
+                    `],
                 }
             }))
 

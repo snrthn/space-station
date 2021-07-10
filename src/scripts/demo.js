@@ -26,6 +26,10 @@ function fetchData () {
     }
 }
 
+let spaceBoat = document.getElementById('spaceBoat');
+
+spaceBoat.src = require('../assets/media/space.mp4');
+
 let boat = document.getElementsByClassName('space-boat')[0];
 
 let url = require('../assets/images/start.png');
