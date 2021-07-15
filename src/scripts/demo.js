@@ -1,30 +1,27 @@
 
-// 测试接口
-fetchData();
+import request from '../api/request';
 
-function fetchData () {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', process.env.BASE_API + 'test', true),
-    xhr.send();
-    xhr.onload = function () {
-        var res = null;
-        try {
-            res = JSON.parse(xhr.responseText);
-        } catch (e) {
-            res  = xhr.responseText;
-        }
+// 发送一个网络请求
+request({
+    url: '/test?use=911',
+    method: 'post',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    params: {
+        a: 100,
+        b: 200
+    },
+    data: {
+        msg: '这是一个请求体参数'
+    },
+    success: function (res) {
         console.log(res);
-    };
-    xhr.onerror = function () {
-        var res = null;
-        try {
-            res = JSON.parse(xhr.responseText);
-        } catch (e) {
-            res  = xhr.responseText;
-        }
-        console.log(res);
+    },
+    fail: function (err) {
+        console.log(err);
     }
-}
+});
 
 let spaceBoat = document.getElementById('spaceBoat');
 
