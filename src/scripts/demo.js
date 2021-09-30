@@ -3,7 +3,7 @@ import request from '../api/request';
 
 // 发送一个网络请求
 request({
-    url: '/test?use=911',
+    url: 'test?use=911',
     method: 'post',
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded'

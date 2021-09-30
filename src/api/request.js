@@ -17,6 +17,22 @@
  * @param {function} options.fail 异常回调
  */
 
+request.reqInterceptor = function (config) {
+
+    console.log('请求拦截器已捕获');
+    console.log(config);
+
+    return config;
+}
+
+request.resInterceptor = function (result) {
+
+    console.log('响应拦截器已捕获');
+    console.log(result);
+
+    return result;
+}
+
 function request (options) {
 
     // 定义请求对象
@@ -27,6 +43,17 @@ function request (options) {
     } else {
         // 微软低版本IE以下使用 Microsoft.XMLHttp 组件
         xhr = new ActiveXObject('Microsoft.XMLHTTP');
+    }
+
+    // 判断空参数
+    if (!options) options = {};
+
+    // 设置请求拦截器
+    var fnSelf = request; // 引用request自身
+
+    if (fnSelf.reqInterceptor && Object.prototype.toString.call(fnSelf.reqInterceptor) === '[object Function]') {
+        options = fnSelf.reqInterceptor(options);
+        if (!options) return;
     }
 
     // 请求方法
@@ -56,7 +83,7 @@ function request (options) {
     // 设置请求头
     if (options.headers && Object.prototype.toString.call(options.headers) === '[object Object]') {
         for (var key in options.headers) {
-            xhr.setRequestHeader('Content-Type', options.headers[key]);
+            xhr.setRequestHeader(key, options.headers[key]);
         }
     }
 
@@ -71,7 +98,6 @@ function request (options) {
                 dataStr += key + '=' + data[key] + '&';
             }
             if (dataStr) dataStr = dataStr.substr(0, dataStr.length - 1);
-            console.log(dataStr);
             xhr.send(dataStr);
         } else {
             xhr.send(JSON.stringify(data));
@@ -89,7 +115,11 @@ function request (options) {
                 res = xhr.responseText;
             }
 
-            if (options.success && Object.prototype.toString.call(options.success) === '[object Function]') {
+            if (fnSelf.resInterceptor && Object.prototype.toString.call(fnSelf.resInterceptor) === '[object Function]') {
+                // 设置响应拦截器
+                var result = fnSelf.resInterceptor(res);
+                if (result) options.success(result);
+            } else if (options.success && Object.prototype.toString.call(options.success) === '[object Function]') {
                 options.success(res);
             }
         }
@@ -103,8 +133,26 @@ function request (options) {
                 res = xhr.status + ' ' + xhr.statusText;
             }
             
-            if (options.fail && Object.prototype.toString.call(options.fail) === '[object Function]') {
+            if (fnSelf.resInterceptor && Object.prototype.toString.call(fnSelf.resInterceptor) === '[object Function]') {
+                // 设置响应拦截器
+                var result = fnSelf.resInterceptor(res);
+                if (result) options.success(result);
+            } else if (options.fail && Object.prototype.toString.call(options.fail) === '[object Function]') {
                 options.fail(res);
+            }
+        }
+
+        if (xhr.readyState === 4 && (!xhr.status || xhr.status === 0)) {
+            // 请求网络异常
+            var errStr = {
+                message: '网络异常'
+            }
+            if (fnSelf.resInterceptor && Object.prototype.toString.call(fnSelf.resInterceptor) === '[object Function]') {
+                // 设置响应拦截器
+                var result = fnSelf.resInterceptor(errStr);
+                if (result) options.fail(result);
+            } else if (options.fail && Object.prototype.toString.call(options.fail) === '[object Function]') {
+                options.fail(errStr);
             }
         }
     }
