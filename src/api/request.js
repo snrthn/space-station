@@ -136,7 +136,7 @@ function request (options) {
             if (fnSelf.resInterceptor && Object.prototype.toString.call(fnSelf.resInterceptor) === '[object Function]') {
                 // 设置响应拦截器
                 var result = fnSelf.resInterceptor(res);
-                if (result) options.success(result);
+                if (result) options.fail(result);
             } else if (options.fail && Object.prototype.toString.call(options.fail) === '[object Function]') {
                 options.fail(res);
             }
