@@ -4,7 +4,7 @@ import request from '../api/request';
 // 发送一个网络请求
 request({
     url: 'test?use=911',
-    method: 'post',
+    method: 'get',
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
     },
@@ -27,11 +27,24 @@ let spaceBoat = document.getElementById('spaceBoat');
 
 spaceBoat.src = require('../assets/media/space.mp4');
 
+let dock = document.getElementsByClassName('boat-dock')[0];
+
 let boat = document.getElementsByClassName('space-boat')[0];
 
-let url = require('../assets/images/start.png');
+dock.src = require('../assets/images/animation_1.gif');
 
-boat.src = url;
+let initStatus = 2;
+
+setInterval(() => {
+    initStatus = initStatus === 2 ? 1 : 2;
+    if (initStatus === 2) {
+        dock.src = require('../assets/images/animation_2.gif');
+    } else {
+        dock.src = require('../assets/images/animation_1.gif');
+    }
+}, 4000);
+
+boat.src = require('../assets/images/start.png');
 
 document.getElementById('player').src = require('../assets/media/20210325.mp3');
 

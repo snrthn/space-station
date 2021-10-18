@@ -18,6 +18,15 @@ body {
     color: #ffffff;
 }
 
+.boat-dock {
+    width: 240px;
+    height: 180px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
 .space-boat {
     width: 240px;
     height: 180px;
