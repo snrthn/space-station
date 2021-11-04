@@ -21,6 +21,8 @@ let devServer = {
     client: {
         logging: 'none'
     },
+    hot: false,
+    liveReload: true,
     port: PORT || config.port,
     open: config.autoOpenBrowser,
     proxy: config.proxyTable
