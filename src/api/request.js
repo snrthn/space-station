@@ -23,7 +23,7 @@ request.reqInterceptor = function (config) {
     console.log(config);
 
     return config;
-}
+};
 
 request.resInterceptor = function (result) {
 
@@ -31,7 +31,7 @@ request.resInterceptor = function (result) {
     console.log(result);
 
     return result;
-}
+};
 
 function request (options) {
 
@@ -63,7 +63,7 @@ function request (options) {
     var baseUrl = new RegExp('^(http|https)://').test(options.url) ? '' : (new RegExp('/$').test(process.env.BASE_API) ? process.env.BASE_API : process.env.BASE_API + '/');
 
     // 请求路径
-    var reqPath = baseUrl + (new RegExp('^/').test(options.url) ? options.url.substr(1) : options.url) 
+    var reqPath = baseUrl + (new RegExp('^/').test(options.url) ? options.url.substr(1) : options.url);
 
     // 转化URL参数
     var urlParams = '';
@@ -146,7 +146,7 @@ function request (options) {
             // 请求网络异常
             var errStr = {
                 message: '网络异常'
-            }
+            };
             if (fnSelf.resInterceptor && Object.prototype.toString.call(fnSelf.resInterceptor) === '[object Function]') {
                 // 设置响应拦截器
                 var result = fnSelf.resInterceptor(errStr);
@@ -155,7 +155,7 @@ function request (options) {
                 options.fail(errStr);
             }
         }
-    }
+    };
 }
 
 export default request;

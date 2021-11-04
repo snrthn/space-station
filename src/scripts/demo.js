@@ -57,16 +57,16 @@ console.log(c(a, b));
 
 let obj1 = {
     city1: '北京'
-}
+};
 
 let obj2 = {
     city2: '上海'
-}
+};
 
 let obj3 = {
     ...obj1,
     ...obj2
-}
+};
 
 console.log(obj3);
 
