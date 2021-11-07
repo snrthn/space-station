@@ -7,7 +7,7 @@
  * 处理 Webpack 环境变量
  * @param {Object} obj 
  */
- exports.handleEnvConst = function (obj) {
+exports.handleEnvConst = function (obj) {
     if (!(obj instanceof Object)) return {};
     let result = {};
     for (let key in obj) {

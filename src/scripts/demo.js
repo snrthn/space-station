@@ -1,36 +1,50 @@
 
-// 测试接口
-fetchData();
+import request from '../api/request';
 
-function fetchData () {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', process.env.BASE_API + 'test', true),
-    xhr.send();
-    xhr.onload = function () {
-        var res = null;
-        try {
-            res = JSON.parse(xhr.responseText);
-        } catch (e) {
-            res  = xhr.responseText;
-        }
+// 发送一个网络请求
+request({
+    url: 'test?use=911',
+    method: 'get',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    params: {
+        a: 100,
+        b: 200
+    },
+    data: {
+        msg: '这是一个请求体参数'
+    },
+    success: function (res) {
         console.log(res);
-    };
-    xhr.onerror = function () {
-        var res = null;
-        try {
-            res = JSON.parse(xhr.responseText);
-        } catch (e) {
-            res  = xhr.responseText;
-        }
-        console.log(res);
+    },
+    fail: function (err) {
+        console.log(err);
     }
-}
+});
+
+let spaceBoat = document.getElementById('spaceBoat');
+
+spaceBoat.src = require('../assets/media/space.mp4');
+
+let dock = document.getElementsByClassName('boat-dock')[0];
 
 let boat = document.getElementsByClassName('space-boat')[0];
 
-let url = require('../assets/images/start.jpg');
+dock.src = require('../assets/images/animation_1.gif');
 
-boat.src = url;
+let initStatus = 2;
+
+setInterval(() => {
+    initStatus = initStatus === 2 ? 1 : 2;
+    if (initStatus === 2) {
+        dock.src = require('../assets/images/animation_2.gif');
+    } else {
+        dock.src = require('../assets/images/animation_1.gif');
+    }
+}, 4000);
+
+boat.src = require('../assets/images/start.png');
 
 document.getElementById('player').src = require('../assets/media/20210325.mp3');
 
@@ -43,15 +57,23 @@ console.log(c(a, b));
 
 let obj1 = {
     city1: '北京'
-}
+};
 
 let obj2 = {
     city2: '上海'
-}
+};
 
 let obj3 = {
     ...obj1,
     ...obj2
-}
+};
 
 console.log(obj3);
+
+function * demo () {
+    yield 'MMB';
+}
+
+let d = demo();
+
+console.log(d);

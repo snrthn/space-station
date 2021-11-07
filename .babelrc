@@ -1,0 +1,28 @@
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "modules": false,
+                "targets": {
+                    "browsers": [
+                        "> 0.25%",
+                        "not dead"
+                    ]
+                }
+            }
+        ]
+    ],
+    "plugins": [
+        [
+            "@babel/plugin-transform-runtime",
+            {
+                "absoluteRuntime": false,
+                "corejs": 2,
+                "helpers": true,
+                "regenerator": true,
+                "version": "7.0.0-beta.0"
+            }
+        ]
+    ]
+}

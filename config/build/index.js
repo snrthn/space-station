@@ -7,7 +7,6 @@
 
 let ora = require('ora');
 let chalk = require('chalk');
-let webpack = require('webpack');
 
 module.exports = function (envLabel, callBack) {
 
