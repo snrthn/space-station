@@ -17,18 +17,27 @@
  * @param {function} options.fail 异常回调
  */
 
+// 请求拦截器
 request.reqInterceptor = function (config) {
 
-    console.log('请求拦截器已捕获');
     console.log(config);
 
     return config;
 };
 
+// 响应拦截器 - 正常
 request.resInterceptor = function (result) {
+    
+    console.log(result);
+
+    return result;
+};
+
+// 响应拦截器 - 异常
+request.catchInterceptor = function (result) {
 
     console.log('响应拦截器已捕获');
-    console.log(result);
+    console.warn(result);
 
     return result;
 };
@@ -51,7 +60,7 @@ function request (options) {
     // 设置请求拦截器
     var fnSelf = request; // 引用request自身
 
-    if (fnSelf.reqInterceptor && Object.prototype.toString.call(fnSelf.reqInterceptor) === '[object Function]') {
+    if (isFunction(fnSelf.reqInterceptor)) {
         options = fnSelf.reqInterceptor(options);
         if (!options) return;
     }
@@ -115,11 +124,11 @@ function request (options) {
                 res = xhr.responseText;
             }
 
-            if (fnSelf.resInterceptor && Object.prototype.toString.call(fnSelf.resInterceptor) === '[object Function]') {
+            if (isFunction(fnSelf.resInterceptor)) {
                 // 设置响应拦截器
                 var result = fnSelf.resInterceptor(res);
-                if (result) options.success(result);
-            } else if (options.success && Object.prototype.toString.call(options.success) === '[object Function]') {
+                if (result && isFunction(options.success)) options.success(result);
+            } else if (isFunction(options.success)) {
                 options.success(res);
             }
         }
@@ -133,11 +142,11 @@ function request (options) {
                 res = xhr.status + ' ' + xhr.statusText;
             }
             
-            if (fnSelf.resInterceptor && Object.prototype.toString.call(fnSelf.resInterceptor) === '[object Function]') {
+            if (isFunction(fnSelf.catchInterceptor)) {
                 // 设置响应拦截器
-                var result = fnSelf.resInterceptor(res);
-                if (result) options.fail(result);
-            } else if (options.fail && Object.prototype.toString.call(options.fail) === '[object Function]') {
+                var result = fnSelf.catchInterceptor(res);
+                if (result && isFunction(options.fail)) options.fail(result);
+            } else if (isFunction(options.fail)) {
                 options.fail(res);
             }
         }
@@ -147,15 +156,19 @@ function request (options) {
             var errStr = {
                 message: '网络异常'
             };
-            if (fnSelf.resInterceptor && Object.prototype.toString.call(fnSelf.resInterceptor) === '[object Function]') {
+            if (isFunction(fnSelf.catchInterceptor)) {
                 // 设置响应拦截器
-                var result = fnSelf.resInterceptor(errStr);
-                if (result) options.fail(result);
-            } else if (options.fail && Object.prototype.toString.call(options.fail) === '[object Function]') {
+                var result = fnSelf.catchInterceptor(errStr);
+                if (result && isFunction(options.fail)) options.fail(result);
+            } else if (isFunction(options.fail)) {
                 options.fail(errStr);
             }
         }
     };
+}
+
+function isFunction (fn) {
+    return fn && Object.prototype.toString.call(fn) === '[object Function]';
 }
 
 export default request;
