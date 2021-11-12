@@ -21,6 +21,7 @@ let devServer = {
     },
     hot: false,
     liveReload: true,
+    watchFiles: ['static/**/*'],
     port: PORT || config.port,
     open: config.autoOpenBrowser,
     proxy: config.proxyTable
