@@ -20,6 +20,7 @@
 // 请求拦截器
 request.reqInterceptor = function (config) {
 
+    console.log("%c%s", "color: red; background: yellow; font-family: Micirosft Yahei; font-size: 24px;", " 入参明细：");
     console.log(config);
 
     return config;
@@ -28,6 +29,7 @@ request.reqInterceptor = function (config) {
 // 响应拦截器 - 正常
 request.resInterceptor = function (result) {
     
+    console.log("%c%s", "color: green; background: yellow; font-family: Micirosft Yahei; font-size: 24px;", " 出参明细：");
     console.log(result);
 
     return result;
@@ -36,7 +38,7 @@ request.resInterceptor = function (result) {
 // 响应拦截器 - 异常
 request.catchInterceptor = function (result) {
 
-    console.log('响应拦截器已捕获');
+    console.log("%c%s", "color: #222222; background: #ff8800; font-family: Micirosft Yahei; font-size: 24px;", " 响应异常：");
     console.warn(result);
 
     return result;
@@ -108,6 +110,8 @@ function request (options) {
             }
             if (dataStr) dataStr = dataStr.substr(0, dataStr.length - 1);
             xhr.send(dataStr);
+        } else if (Object.prototype.toString.call(data) === '[object FormData]') {
+            xhr.send(data);
         } else {
             xhr.send(JSON.stringify(data));
         }
