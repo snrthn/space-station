@@ -74,7 +74,7 @@ function request (options) {
     var baseUrl = new RegExp('^(http|https)://').test(options.url) ? '' : (new RegExp('/$').test(process.env.BASE_API) ? process.env.BASE_API : process.env.BASE_API + '/');
 
     // 请求路径
-    var reqPath = baseUrl + (new RegExp('^/').test(options.url) ? options.url.substr(1) : options.url);
+    var reqPath = baseUrl + (new RegExp('^/').test(options.url) ? options.url.substr(1) : options.url).replace(/\/+/g, '/');
 
     // 转化URL参数
     var urlParams = '';
@@ -89,7 +89,7 @@ function request (options) {
     // 同步异步
     var isAsync = options.async === undefined ? true : options.async;
     
-    xhr.open(method, reqPath.replace(/\/+/g, '/') + urlParams, !!options.async || isAsync);
+    xhr.open(method, reqPath + urlParams, !!options.async || isAsync);
 
     // 设置请求头
     if (options.headers && Object.prototype.toString.call(options.headers) === '[object Object]') {
